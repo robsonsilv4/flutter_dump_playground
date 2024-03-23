@@ -33,6 +33,7 @@ class _EmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return MoonFormTextInput(
       hintText: 'Email',
+      leading: const Icon(MoonIcons.mail_email_stats_24_regular),
       textInputSize: MoonTextInputSize.lg,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -74,6 +75,7 @@ class _PasswordInputState extends State<_PasswordInput> {
   Widget build(BuildContext context) {
     return MoonFormTextInput(
       hintText: 'Password',
+      leading: const Icon(MoonIcons.security_password_24_regular),
       obscureText: !_visiblePassword,
       textInputSize: MoonTextInputSize.lg,
       textInputAction: TextInputAction.done,
