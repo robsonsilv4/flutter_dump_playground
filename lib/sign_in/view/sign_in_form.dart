@@ -15,10 +15,7 @@ class SignInForm extends StatelessWidget {
         children: [
           const _EmailInput(),
           Gap(sizes.x2s),
-          MoonFormTextInput(
-            textInputSize: MoonTextInputSize.lg,
-            hintText: 'Password',
-          ),
+          const _PasswordInput(),
           Gap(sizes.xs),
           const _SignInButton(),
         ],
@@ -49,6 +46,34 @@ class _EmailInput extends StatelessWidget {
     }
     if (!_emailRegExp.hasMatch(value)) {
       return 'Invalid email';
+    }
+    return null;
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  const _PasswordInput();
+
+  static final _passwordRegExp =
+      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+
+  @override
+  Widget build(BuildContext context) {
+    return MoonFormTextInput(
+      hintText: 'Password',
+      obscureText: true,
+      textInputSize: MoonTextInputSize.lg,
+      textInputAction: TextInputAction.done,
+      validator: _validatePassword,
+    );
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (!_passwordRegExp.hasMatch(value)) {
+      return 'Invalid password';
     }
     return null;
   }
