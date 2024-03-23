@@ -51,19 +51,38 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class _PasswordInput extends StatefulWidget {
   const _PasswordInput();
 
+  @override
+  State<_PasswordInput> createState() => _PasswordInputState();
+}
+
+class _PasswordInputState extends State<_PasswordInput> {
   static final _passwordRegExp =
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+
+  bool _visiblePassword = false;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _visiblePassword = !_visiblePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
       hintText: 'Password',
-      obscureText: true,
+      obscureText: !_visiblePassword,
       textInputSize: MoonTextInputSize.lg,
       textInputAction: TextInputAction.done,
+      trailing: GestureDetector(
+        onTap: _togglePasswordVisibility,
+        child: _visiblePassword
+            ? const Icon(MoonIcons.controls_eye_crossed_24_light)
+            : const Icon(MoonIcons.controls_eye_24_light),
+      ),
       validator: _validatePassword,
     );
   }
