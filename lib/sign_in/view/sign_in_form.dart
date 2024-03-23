@@ -9,7 +9,6 @@ class SignInForm extends StatelessWidget {
   Widget build(BuildContext context) {
     const sizes = MoonSizes.sizes;
     return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -113,6 +112,12 @@ class _SignInButton extends StatelessWidget {
           MoonToast.show(
             context,
             label: const Text('Home is not implemented yet!'),
+          );
+        } else {
+          MoonToast.show(
+            context,
+            variant: MoonToastVariant.inverted,
+            label: const Text('Form is invalid!'),
           );
         }
       },
