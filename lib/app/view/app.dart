@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dump_playground/sign_in/sign_in.dart';
 import 'package:moon_design/moon_design.dart';
 
 class App extends StatelessWidget {
@@ -19,11 +20,7 @@ class App extends StatelessWidget {
           MoonTheme(tokens: MoonTokens.dark),
         ],
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Welcome to Dump Playground!'),
-        ),
-      ),
+      home: const SignInPage(),
     );
   }
 }
