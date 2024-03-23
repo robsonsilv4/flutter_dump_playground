@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  gap: ^3.0.1
   moon_design: ^0.52.0
 
 dev_dependencies:
