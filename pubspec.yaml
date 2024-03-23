@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  moon_design: ^0.52.0
 
 dev_dependencies:
   flakes: ^1.1.0

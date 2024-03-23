@@ -115,6 +115,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  moon_design:
+    dependency: "direct main"
+    description:
+      name: moon_design
+      sha256: "4d98a33aab010346c49afc6f83a8c39178de1023f26f4fd241e43edb6ee90641"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.52.0"
+  moon_icons:
+    dependency: transitive
+    description:
+      name: moon_icons
+      sha256: da4190a0c82f60702998f4d0b8289694e199b0410a3e8e4231867a5f9e368051
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
+  moon_tokens:
+    dependency: transitive
+    description:
+      name: moon_tokens
+      sha256: "5ad3d6ed3204b05b0020af1e578b91cbf7aa6f654d3c1d5a5c14b4fa29c30f18"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   path:
     dependency: transitive
     description:
@@ -194,3 +218,4 @@ packages:
     version: "13.0.0"
 sdks:
   dart: ">=3.3.2 <4.0.0"
+  flutter: ">=1.17.0"
