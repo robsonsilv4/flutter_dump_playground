@@ -98,14 +98,14 @@ class _PasswordInputState extends State<_PasswordInput> {
   @override
   void initState() {
     super.initState();
-    _textController.addListener(_validatePassword);
+    _textController.addListener(_validate);
   }
 
   void _togglePasswordVisibility() {
     setState(() => _visiblePassword = !_visiblePassword);
   }
 
-  void _validatePassword() {
+  void _validate() {
     if (!_inputFocusNode.hasFocus) return;
     final password = _textController.text;
     if (password.isEmpty) {
@@ -141,7 +141,7 @@ class _PasswordInputState extends State<_PasswordInput> {
   void dispose() {
     _inputFocusNode.dispose();
     _textController
-      ..removeListener(_validatePassword)
+      ..removeListener(_validate)
       ..dispose();
     super.dispose();
   }
