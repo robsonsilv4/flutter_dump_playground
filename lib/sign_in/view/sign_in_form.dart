@@ -2,8 +2,26 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:moon_design/moon_design.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
+
+  @override
+  State<SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
+  bool _isEmailValid = false;
+  bool _isPasswordValid = false;
+
+  void _onEmailValidated(bool isValid) {
+    if (isValid == _isEmailValid) return;
+    setState(() => _isEmailValid = isValid);
+  }
+
+  void _onPasswordValidated(bool isValid) {
+    if (isValid == _isPasswordValid) return;
+    setState(() => _isPasswordValid = isValid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +30,11 @@ class SignInForm extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const _EmailInput(),
+          _EmailInput(onValidated: _onEmailValidated),
           Gap(sizes.x2s),
-          const _PasswordInput(),
+          _PasswordInput(onValidated: _onPasswordValidated),
           Gap(sizes.xs),
-          const _SignInButton(),
+          _SignInButton(enabled: _isEmailValid && _isPasswordValid),
         ],
       ),
     );
@@ -24,7 +42,9 @@ class SignInForm extends StatelessWidget {
 }
 
 class _EmailInput extends StatefulWidget {
-  const _EmailInput();
+  const _EmailInput({this.onValidated});
+
+  final ValueChanged<bool>? onValidated;
 
   @override
   State<_EmailInput> createState() => _EmailInputState();
@@ -53,6 +73,7 @@ class _EmailInputState extends State<_EmailInput> {
     } else {
       setState(() => _errorText = null);
     }
+    widget.onValidated?.call(_errorText == null);
   }
 
   @override
@@ -80,7 +101,9 @@ class _EmailInputState extends State<_EmailInput> {
 }
 
 class _PasswordInput extends StatefulWidget {
-  const _PasswordInput();
+  const _PasswordInput({this.onValidated});
+
+  final ValueChanged<bool>? onValidated;
 
   @override
   State<_PasswordInput> createState() => _PasswordInputState();
@@ -115,6 +138,7 @@ class _PasswordInputState extends State<_PasswordInput> {
     } else {
       setState(() => _errorText = null);
     }
+    widget.onValidated?.call(_errorText == null);
   }
 
   @override
@@ -147,28 +171,27 @@ class _PasswordInputState extends State<_PasswordInput> {
   }
 }
 
-class _SignInButton extends StatelessWidget {
-  const _SignInButton();
+class _SignInButton extends StatefulWidget {
+  const _SignInButton({required this.enabled});
 
+  final bool enabled;
+
+  @override
+  State<_SignInButton> createState() => _SignInButtonState();
+}
+
+class _SignInButtonState extends State<_SignInButton> {
   @override
   Widget build(BuildContext context) {
     return MoonFilledButton(
       width: double.maxFinite,
       label: const Text('Sign In'),
-      onTap: () {
-        if (Form.of(context).validate()) {
-          MoonToast.show(
-            context,
-            label: const Text('Home is not implemented yet!'),
-          );
-        } else {
-          MoonToast.show(
-            context,
-            variant: MoonToastVariant.inverted,
-            label: const Text('Form is invalid!'),
-          );
-        }
-      },
+      onTap: widget.enabled
+          ? () => MoonToast.show(
+                context,
+                label: const Text('Home is not implemented yet!'),
+              )
+          : null,
     );
   }
 }
