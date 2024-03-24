@@ -23,31 +23,55 @@ class SignInForm extends StatelessWidget {
   }
 }
 
-class _EmailInput extends StatelessWidget {
+class _EmailInput extends StatefulWidget {
   const _EmailInput();
 
-  static final _emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  @override
+  State<_EmailInput> createState() => _EmailInputState();
+}
+
+class _EmailInputState extends State<_EmailInput> {
+  final _emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+  late final _textController = TextEditingController();
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(_validate);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
+      controller: _textController,
       hintText: 'Email',
+      errorText: _errorText,
       leading: const Icon(MoonIcons.mail_email_stats_24_regular),
       textInputSize: MoonTextInputSize.lg,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
-      validator: _validateEmail,
     );
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required';
+  void _validate() {
+    final email = _textController.text;
+    if (email.isEmpty) {
+      setState(() => _errorText = 'Email is required');
+    } else if (!_emailRegExp.hasMatch(email)) {
+      setState(() => _errorText = 'Invalid email');
+    } else {
+      setState(() => _errorText = null);
     }
-    if (!_emailRegExp.hasMatch(value)) {
-      return 'Invalid email';
-    }
-    return null;
+  }
+
+  @override
+  void dispose() {
+    _textController
+      ..removeListener(_validate)
+      ..dispose();
+    super.dispose();
   }
 }
 
@@ -62,18 +86,37 @@ class _PasswordInputState extends State<_PasswordInput> {
   static final _passwordRegExp =
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
 
+  late final _textController = TextEditingController();
   bool _visiblePassword = false;
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(_validatePassword);
+  }
 
   void _togglePasswordVisibility() {
-    setState(() {
-      _visiblePassword = !_visiblePassword;
-    });
+    setState(() => _visiblePassword = !_visiblePassword);
+  }
+
+  void _validatePassword() {
+    final password = _textController.text;
+    if (password.isEmpty) {
+      setState(() => _errorText = 'Password is required');
+    } else if (!_passwordRegExp.hasMatch(password)) {
+      setState(() => _errorText = 'Invalid password');
+    } else {
+      setState(() => _errorText = null);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
+      controller: _textController,
       hintText: 'Password',
+      errorText: _errorText,
       leading: const Icon(MoonIcons.security_password_24_regular),
       obscureText: !_visiblePassword,
       textInputSize: MoonTextInputSize.lg,
@@ -84,18 +127,15 @@ class _PasswordInputState extends State<_PasswordInput> {
             ? const Icon(MoonIcons.controls_eye_crossed_24_light)
             : const Icon(MoonIcons.controls_eye_24_light),
       ),
-      validator: _validatePassword,
     );
   }
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
-    if (!_passwordRegExp.hasMatch(value)) {
-      return 'Invalid password';
-    }
-    return null;
+  @override
+  void dispose() {
+    _textController
+      ..removeListener(_validatePassword)
+      ..dispose();
+    super.dispose();
   }
 }
 
