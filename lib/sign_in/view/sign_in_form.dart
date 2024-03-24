@@ -34,6 +34,7 @@ class _EmailInputState extends State<_EmailInput> {
   final _emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
   late final _textController = TextEditingController();
+  late final _inputFocusNode = FocusNode();
   String? _errorText;
 
   @override
@@ -45,6 +46,7 @@ class _EmailInputState extends State<_EmailInput> {
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
+      focusNode: _inputFocusNode,
       controller: _textController,
       hintText: 'Email',
       errorText: _errorText,
@@ -56,6 +58,7 @@ class _EmailInputState extends State<_EmailInput> {
   }
 
   void _validate() {
+    if (!_inputFocusNode.hasFocus) return;
     final email = _textController.text;
     if (email.isEmpty) {
       setState(() => _errorText = 'Email is required');
@@ -68,6 +71,7 @@ class _EmailInputState extends State<_EmailInput> {
 
   @override
   void dispose() {
+    _inputFocusNode.dispose();
     _textController
       ..removeListener(_validate)
       ..dispose();
@@ -87,6 +91,7 @@ class _PasswordInputState extends State<_PasswordInput> {
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
 
   late final _textController = TextEditingController();
+  late final _inputFocusNode = FocusNode();
   bool _visiblePassword = false;
   String? _errorText;
 
@@ -101,6 +106,7 @@ class _PasswordInputState extends State<_PasswordInput> {
   }
 
   void _validatePassword() {
+    if (!_inputFocusNode.hasFocus) return;
     final password = _textController.text;
     if (password.isEmpty) {
       setState(() => _errorText = 'Password is required');
@@ -114,6 +120,7 @@ class _PasswordInputState extends State<_PasswordInput> {
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
+      focusNode: _inputFocusNode,
       controller: _textController,
       hintText: 'Password',
       errorText: _errorText,
@@ -132,6 +139,7 @@ class _PasswordInputState extends State<_PasswordInput> {
 
   @override
   void dispose() {
+    _inputFocusNode.dispose();
     _textController
       ..removeListener(_validatePassword)
       ..dispose();
