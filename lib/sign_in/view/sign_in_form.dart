@@ -43,6 +43,18 @@ class _EmailInputState extends State<_EmailInput> {
     _textController.addListener(_validate);
   }
 
+  void _validate() {
+    if (!_inputFocusNode.hasFocus) return;
+    final email = _textController.text;
+    if (email.isEmpty) {
+      setState(() => _errorText = 'Email is required');
+    } else if (!_emailRegExp.hasMatch(email)) {
+      setState(() => _errorText = 'Invalid email');
+    } else {
+      setState(() => _errorText = null);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MoonFormTextInput(
@@ -55,18 +67,6 @@ class _EmailInputState extends State<_EmailInput> {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
     );
-  }
-
-  void _validate() {
-    if (!_inputFocusNode.hasFocus) return;
-    final email = _textController.text;
-    if (email.isEmpty) {
-      setState(() => _errorText = 'Email is required');
-    } else if (!_emailRegExp.hasMatch(email)) {
-      setState(() => _errorText = 'Invalid email');
-    } else {
-      setState(() => _errorText = null);
-    }
   }
 
   @override
