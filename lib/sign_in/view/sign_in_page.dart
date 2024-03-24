@@ -20,19 +20,22 @@ class SignInView extends StatelessWidget {
     const sizes = MoonSizes.sizes;
     const typography = MoonTypography.typography;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(sizes.x2s),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sign in to your account',
-              style: typography.heading.text24,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(sizes.x2s),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Sign in to your account',
+                  style: typography.heading.text24,
+                ),
+                Gap(sizes.xs),
+                const SignInForm(),
+              ],
             ),
-            Gap(sizes.xs),
-            const SignInForm(),
-          ],
+          ),
         ),
       ),
     );
